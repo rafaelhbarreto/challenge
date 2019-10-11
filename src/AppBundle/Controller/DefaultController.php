@@ -8,6 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+use AppBundle\Service\PeopleStorage; 
+use AppBundle\Helper\Helper; 
+
 use AppBundle\Entity\People; 
 use AppBundle\Entity\Phone; 
 use AppBundle\Entity\Order; 
@@ -16,63 +19,16 @@ use AppBundle\Entity\Item;
 
 class DefaultController extends Controller
 {
-
     /**
      * @Route("/")
      * @Template()
      * 
      * Form apresentation
      */
-    public function uploadAction()
+    public function indexAction()
     {
         // renders app/Resources/views/upload/number.html.twig
         return $this->render('upload/form.html.twig');
-    }
-
-    /**
-     * Recieves a instance of UploadedFile and try upload it.active
-     * 
-     * The function returns an array with status and mesage of upload.
-     * 
-     * @param UploadedFile $file
-     * @return array  $returnData
-     */
-    protected function uploadFile(UploadedFile $file) {
-        
-        $returnData['valid'] = false; 
-        $returnData['mesage'] = 'upload fails';
-        $returnData['filename'] = ''; 
-
-        if(($file instanceof UploadedFile) && $file->getError() == 0) {
-            if(!$file->getSize() < 100000) {
-                $extension = $file->guessExtension(); 
-
-                if($extension !== 'xml') {
-                    $returnData['mesage'] = 'The given file isen\'t XML';  
-                }
-                else {
-                        
-                    // Generate a unique name for the file before saving
-                    $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
-                    // Move the file to the directory where brochures are stored
-                    $uploadsDir = $this->container->getParameter('kernel.root_dir').'/../web/uploads/xml';
-                    $file->move($uploadsDir, $fileName);
-
-                    $returnData['valid'] = true;
-                    $returnData['mesage'] = 'the file has uploaded';
-                    $returnData['filename'] = $fileName; 
-                }
-            }
-            else {
-                $returnData['mesage'] = 'The file size is too big'; 
-            }
-        }
-        else {
-            $returnData['mesage'] = 'An error occurren in upload file'; 
-        }
-
-        return $returnData; 
     }
 
     /**
@@ -100,18 +56,18 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $peopleFile = $request->files->get('peopleFile');
             $orders = $request->files->get('ordersFile');
+            $rootDir = $this->container->getParameter('kernel.root_dir'); 
 
-            // prepare the people file to upload and database storage
-            $dataUploadPeople = $this->uploadFile($peopleFile); 
-            $dataUploadOrders = $this->uploadFile($orders); 
+            try 
+            {
+                // upload the files
+                $peopleFilename = Helper::uploadFile($peopleFile, $rootDir); 
+                Helper::uploadFile($orders, $rootDir); 
 
-            if(!$dataUploadPeople['valid'] || !$dataUploadOrders['valid']) {
-                var_dump('error');   
-            }
-            else {
-
-                // load the xml People file
-                $peopleObject = $this->loadXml($dataUploadPeople['filename']);
+                // storage the content on database 
+                $peopleHandleXml = new PeopleStorage($em); 
+                $peopleHandleXml->storage($peopleFilename);
+                die('a');
                 
                 //
                 // storage the content on the database
@@ -194,6 +150,10 @@ class DefaultController extends Controller
                 return $this->render('upload/form.html.twig', array(
                     'msg' => 'Success!'
                 ));
+                
+            }
+            catch(\Exception $e) {
+                die($e->getMessage()); 
             }
         }
     }
