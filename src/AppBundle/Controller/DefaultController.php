@@ -8,6 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+use AppBundle\Entity\People; 
+use AppBundle\Entity\Phone; 
+
 class DefaultController extends Controller
 {
 
@@ -103,11 +106,41 @@ class DefaultController extends Controller
             }
             else {
 
-                // load the xml file
+                // load the xml People file
                 $peopleObject = $this->loadXml($dataUploadPeople['filename']);
-
+                
+                //
                 // storage the content on the database
+                //
+                if(count($peopleObject) > 0 ) {
 
+                    $entityManager = $this->getDoctrine()->getManager(); 
+
+                    foreach($peopleObject as $person) 
+                    {
+
+                        // ??
+                        // verificar se a pessoa ja existe no banco de dados ?? 
+                        // ?? 
+
+                        $people =  new People(); 
+                        $people->setPersonName($person->personname);
+                        $entityManager->persist($people);
+                        
+                        // phones 
+                        if(count($person->phones) > 0 ){
+                            foreach($person->phones as $item){
+                                $newPhone = new Phone(); 
+                                $newPhone->setPerson($people);
+                                $newPhone->setPhone($item->phone);
+                                $entityManager->persist($newPhone);
+                            }
+                        }
+                    }
+
+                    $entityManager->flush();
+                }
+                
                 return $this->render('upload/form.html.twig', array(
                     'msg' => 'Success!'
                 ));

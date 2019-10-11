@@ -17,7 +17,7 @@ class Phone
     private $id;
 
    /**
-     * @ORM\ManyToOne(targetEntity="People", inversedBy="phones")
+     * @ORM\ManyToOne(targetEntity="People", inversedBy="phones", cascade={"persist"})
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
     private $person; 

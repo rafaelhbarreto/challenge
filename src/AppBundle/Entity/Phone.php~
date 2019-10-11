@@ -17,7 +17,7 @@ class Phone
     private $id;
 
    /**
-     * @ORM\ManyToOne(targetEntity="People", inversedBy="phones")
+     * @ORM\ManyToOne(targetEntity="People", inversedBy="phones", cascade={"persist"})
      * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
     private $person; 
@@ -26,4 +26,60 @@ class Phone
      * @ORM\Column(type="string", length=100)
      */
     private $phone;    
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set phone
+     *
+     * @param string $phone
+     * @return Phone
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return string 
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Set person
+     *
+     * @param \AppBundle\Entity\People $person
+     * @return Phone
+     */
+    public function setPerson(\AppBundle\Entity\People $person = null)
+    {
+        $this->person = $person;
+
+        return $this;
+    }
+
+    /**
+     * Get person
+     *
+     * @return \AppBundle\Entity\People 
+     */
+    public function getPerson()
+    {
+        return $this->person;
+    }
 }
