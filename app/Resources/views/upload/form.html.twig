@@ -26,24 +26,23 @@
 
     <section class="box-upload container">
         <div class="row">
-            <div class="col-lg-8 ml-auto mr-auto">
-                {% if msg !== false  %}
-                    <div class="alert alert-success" role="alert">
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-        <div class="row">
             <div class="col-lg-6 ml-auto mr-auto">
                 <form action="/process" class="form" method="post" enctype='multipart/form-data'>
+
                     <div class="form-group">
-                        <label for="">XML File</label>
-                        <input type="file" name="xmlFile" value="fileupload" id="fileupload" required>
+                        <label for="peopleXML">People File: </label>
+                        <input type="file" name="peopleFile" id="peopleXML" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ordersXML">XML File</label>
+                        <input type="file" name="ordersFile" id="ordersXML" required>
                     </div>
 
                     <div class="form-group">
                         <button class="btn btn-primary"> UPLOAD</button>
                     </div>
+
                 </form>
             </div>
         </div>
