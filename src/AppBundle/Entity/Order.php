@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="order")
+ * @ORM\Table(name="orders")
  */
 class Order
 {
@@ -18,7 +18,7 @@ class Order
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
@@ -125,5 +125,18 @@ class Order
     public function getItems()
     {
         return $this->items;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Order
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 }

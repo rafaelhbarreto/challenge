@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="item")
+ * @ORM\Table(name="items")
  */
 class Item
 {
@@ -24,7 +24,7 @@ class Item
 
     /**
      * @ORM\Column(type="string", length=100, nullable=false)
-     */
+     */ 
     private $title; 
 
     /**

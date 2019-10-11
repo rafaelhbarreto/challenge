@@ -20,7 +20,7 @@ class People
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
@@ -136,5 +136,18 @@ class People
     public function getOrders()
     {
         return $this->orders;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return People
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 }
