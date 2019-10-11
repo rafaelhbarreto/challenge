@@ -35,7 +35,7 @@ class DefaultController extends Controller
         
         $returnData['valid'] = false; 
         $returnData['mesage'] = 'upload fails';
-        $returnData['fileName'] = ''; 
+        $returnData['filename'] = ''; 
 
         if(($file instanceof UploadedFile) && $file->getError() == 0) {
             if(!$file->getSize() < 100000) {
@@ -55,7 +55,7 @@ class DefaultController extends Controller
 
                     $returnData['valid'] = true;
                     $returnData['mesage'] = 'the file has uploaded';
-                    $returnData['fileName'] = $fileName; 
+                    $returnData['filename'] = $fileName; 
                 }
             }
             else {
@@ -76,7 +76,6 @@ class DefaultController extends Controller
      * @return object
      */
     protected function loadXml($fileName) {
-
         $path = $this->container->getParameter('kernel.root_dir').'/../web/uploads/xml/'.$fileName;
         $xmldata = simplexml_load_file($path);
         return $xmldata; 
@@ -104,6 +103,12 @@ class DefaultController extends Controller
             }
             else {
 
+                // load the xml file
+                $peopleObject = $this->loadXml($dataUploadPeople['filename']);
+
+                // storage the content on the database
+                
+
 
                 return $this->render('upload/form.html.twig', array(
                     'msg' => 'Success!'
@@ -120,6 +125,10 @@ class DefaultController extends Controller
      */
     public function test() {
        
-        
+        $fileName = '00d8b206500bf1c912b47b24cc381dc7.xml';
+        $path = $this->container->getParameter('kernel.root_dir').'/../web/uploads/xml/'.$fileName;
+        $xmldata = simplexml_load_file($path);
+        var_dump($xmldata);
+        return $xmldata; 
     }
 }
