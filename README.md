@@ -1,69 +1,52 @@
-Symfony Standard Edition
-========================
+**Challenge for Invillia. **
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
+This is a small project that provides an XML file upload screen, writes the information to the database, and provides a REST API for consuming the information.
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+------------
 
-What's inside?
---------------
+# **How to install  **
 
-The Symfony Standard Edition is configured with the following defaults:
+##### Download Symfony2 and composer
 
-  * An AppBundle you can use to start coding;
+To run, you must have Symfony version 2.x and composer installed on your machine. Below are the download links.
 
-  * Twig as the only configured template engine;
+- Download Composer on the official website https://getcomposer.org/
+- Download the Symfony on the official website https://symfony.com/download
+- Verify the server requirements and if the extensions are installed:  Ctype, iconv, JSON, PCRE, Session, SimpleXML, and Tokenizer;
 
-  * Doctrine ORM/DBAL;
+After theses steps,  clone this repository in a directory of your preference. E.g:
 
-  * Swiftmailer;
+`git clone https://github.com/rafaelhbarreto/challenge.git`
 
-  * Annotations enabled for everything.
+After, go to the directory
 
-It comes pre-configured with the following bundles:
+` cd challenge`
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+Update the dependecies of project 
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+`composer update`
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
+##### Database
 
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
+Create a MySQL database named challenge on your localhost machine. Then, set the enconding to utf8_general_ci. 
 
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
+In the root folder of project run the command to generate the database
 
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
+`php app/console doctrine:schema:update --force`
 
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
+##### Run the server
 
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
+In the root folder of project run the following command 
 
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
+`php app/console server:run`
 
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
+Now open the browser of your preference and access http://localhost:8000
 
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
+# **Technologies used  **
 
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  http://symfony.com/doc/2.5/book/installation.html
-[6]:  http://symfony.com/doc/2.5/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.5/book/doctrine.html
-[8]:  http://symfony.com/doc/2.5/book/templating.html
-[9]:  http://symfony.com/doc/2.5/book/security.html
-[10]: http://symfony.com/doc/2.5/cookbook/email.html
-[11]: http://symfony.com/doc/2.5/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.5/cookbook/assetic/asset_management.html
-[13]: http://symfony.com/doc/2.5/bundles/SensioGeneratorBundle/index.html
+- Symfony2
+- Composer
+- Doctrine
+- MySQL
+- Git
+- XML
