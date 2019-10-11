@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+
+<style>
+
+    body {
+        background: #f5f5f5;
+        min-height: 100%;
+        display: flex;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .box-upload {
+        background: #fff;
+        padding: 15px; 
+        border-radius: 4px; 
+    }
+
+</style>
+
+{% endblock stylesheets %}
+
+{% block body %}
+
+    <section class="box-upload container">
+        <div class="row">
+            <div class="col-lg-8 ml-auto mr-auto">
+                {% if msg !== false  %}
+                    <div class="alert alert-success" role="alert">
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 ml-auto mr-auto">
+                <form action="/process" class="form" method="post" enctype='multipart/form-data'>
+                    <div class="form-group">
+                        <label for="">XML File</label>
+                        <input type="file" name="xmlFile" value="fileupload" id="fileupload" required>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary"> UPLOAD</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+{% endblock body %}
