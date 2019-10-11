@@ -1,0 +1,44 @@
+<?php
+
+namespace AppBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="item")
+ */
+class Item
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Order", inversedBy="items", cascade={"persist"})
+     * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
+     */
+    private $order;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=false)
+     */
+    private $title; 
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=false)
+     */
+    private $note; 
+
+    /**
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $quantity;
+
+    /**
+     * @ORM\Column(type="float", nullable=false)
+     */
+    private $price; 
+}

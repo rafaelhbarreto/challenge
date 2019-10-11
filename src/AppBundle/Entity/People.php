@@ -14,6 +14,7 @@ class People
   public function __construct() 
   {
     $this->phones = new ArrayCollection(); 
+    $this->orders = new ArrayCollection(); 
   }
 
     /**
@@ -24,7 +25,7 @@ class People
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=false)
      */
     private $person_name;    
 
@@ -32,6 +33,11 @@ class People
      * @ORM\OneToMany(targetEntity="Phone", mappedBy="person")
      */
     private $phones; 
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Order", mappedBy="person")
+     */
+    private $orders; 
 
     /**
      * Get id
@@ -97,5 +103,38 @@ class People
     public function getPhones()
     {
         return $this->phones;
+    }
+
+    /**
+     * Add orders
+     *
+     * @param \AppBundle\Entity\Order $orders
+     * @return People
+     */
+    public function addOrder(\AppBundle\Entity\Order $orders)
+    {
+        $this->orders[] = $orders;
+
+        return $this;
+    }
+
+    /**
+     * Remove orders
+     *
+     * @param \AppBundle\Entity\Order $orders
+     */
+    public function removeOrder(\AppBundle\Entity\Order $orders)
+    {
+        $this->orders->removeElement($orders);
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 }

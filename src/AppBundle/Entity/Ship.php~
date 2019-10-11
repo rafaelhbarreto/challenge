@@ -1,0 +1,45 @@
+<?php
+
+namespace AppBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="ship")
+ */
+class Ship
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Order", inversedBy="ship")
+     * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
+     */
+    private $order;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=false)
+     */
+    private $name; 
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=false)
+     */
+    private $address; 
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=false)
+     */
+    private $city; 
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=false)
+     */
+    private $country; 
+}

@@ -23,7 +23,7 @@ class Phone
     private $person; 
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=50, nullable=false)
      */
     private $phone;    
 

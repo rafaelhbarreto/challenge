@@ -141,6 +141,13 @@ class DefaultController extends Controller
                     $entityManager->flush();
                 }
                 
+                // load the xml People file
+                //$peopleObject = $this->loadXml($dataUploadPeople['filename']);
+                
+                //
+                // storage the content on the database
+                //
+
                 return $this->render('upload/form.html.twig', array(
                     'msg' => 'Success!'
                 ));
