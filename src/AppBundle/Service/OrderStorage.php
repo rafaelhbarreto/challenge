@@ -3,10 +3,9 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\People;
-use AppBundle\Entity\Phone;
 use AppBundle\Entity\Order;
 use AppBundle\Entity\Ship;
-use AppBundle\Entity\item;
+use AppBundle\Entity\Item;
 
 use Doctrine\ORM\EntityManager;
 
@@ -65,24 +64,16 @@ final class OrderStorage implements XmlHandlerInterface
                 if (!empty($shiporder->items->item)) {
                     foreach ($shiporder->items as $item) {
                         
-                        if(!is_array($item)) {
+                        $item = is_array($item) ? $item : [$item];
+
+                        foreach($item as $it) {
                             $newItem = new Item();
-                            $newItem->setTitle($item->title);
-                            $newItem->setNote($item->note);
-                            $newItem->setQuantity($item->quantity);
-                            $newItem->setPrice($item->price);
+                            $newItem->setTitle($it->title);
+                            $newItem->setNote($it->note);
+                            $newItem->setQuantity($it->quantity);
+                            $newItem->setPrice($it->price);
                             $newItem->setOrder($order);
                             $this->entityManager->persist($newItem); 
-                        } else {
-                            foreach($item as $it) {
-                                $newItem = new Item();
-                                $newItem->setTitle($it->title);
-                                $newItem->setNote($it->note);
-                                $newItem->setQuantity($it->quantity);
-                                $newItem->setPrice($it->price);
-                                $newItem->setOrder($order);
-                                $this->entityManager->persist($newItem); 
-                            }
                         }
                     }
                 }

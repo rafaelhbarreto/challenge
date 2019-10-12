@@ -6,17 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 use AppBundle\Service\PeopleStorage; 
 use AppBundle\Service\OrderStorage; 
 use AppBundle\Helper\Helper; 
-
-use AppBundle\Entity\People; 
-use AppBundle\Entity\Phone; 
-use AppBundle\Entity\Order; 
-use AppBundle\Entity\Ship; 
-use AppBundle\Entity\Item; 
 
 class DefaultController extends Controller
 {
@@ -64,10 +57,8 @@ class DefaultController extends Controller
                 $ordersStorage = new OrderStorage($em); 
                 $ordersStorage->storage($ordersFilename);
                 
-                return $this->render('upload/form.html.twig', array(
-                    'msg' => 'Success!'
-                ));
-                
+                // return to form with success message
+                return $this->render('upload/form.html.twig', array('msg' => 'Success!'));
             }
             catch(\Exception $e) {
                 die($e->getMessage()); 

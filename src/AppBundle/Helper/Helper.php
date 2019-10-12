@@ -3,7 +3,6 @@
 namespace AppBundle\Helper; 
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\DependencyInjection\ContainerInterface; 
 
 class Helper {
 

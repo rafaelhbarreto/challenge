@@ -40,9 +40,7 @@ final class PeopleStorage implements XmlHandlerInterface
 
         if(!empty($person->phones->phone )) {
 
-          $phones = is_array($person->phones->phone) ? 
-          $person->phones->phone : 
-          [$person->phones->phone];
+          $phones = is_array($person->phones->phone) ? $person->phones->phone : [$person->phones->phone];
 
           foreach($phones as $phone) {
 
