@@ -1,18 +1,14 @@
 <?php
 
 namespace AppBundle\Service;
+
 use AppBundle\Entity\People;
 use AppBundle\Entity\Phone;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-/**
- * @package AppBundle\Service
- */
-final class PeopleStorage implements XmlHandlerInterface
+class PeopleStorage
 {
-  /**
-   * instance of Entity Manager
-   */
   protected $entityManager; 
 
   public function __construct(EntityManager $em) 
@@ -20,14 +16,13 @@ final class PeopleStorage implements XmlHandlerInterface
     $this->entityManager = $em; 
   }
 
-  /**
-   * Handle the upload
-   * 
-   * @throws \Exception
-   */
-  public function storage($filename) 
+  public function storage(UploadedFile $file) 
   { 
-    $loadXml = json_decode(json_encode(simplexml_load_file($filename)));
+    if(!$file->isValid()) {
+      throw new \Exception('Invalid File'); 
+    }
+
+    $loadXml = json_decode(json_encode(simplexml_load_file($file->getRealPath())));
     
     if(count($loadXml->person) > 0 ) {
 

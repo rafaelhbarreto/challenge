@@ -2,28 +2,28 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Entity\People;
 use AppBundle\Entity\Order;
 use AppBundle\Entity\Ship;
 use AppBundle\Entity\Item;
-
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-final class OrderStorage implements XmlHandlerInterface
+class OrderStorage
 {
-    /**
-     * instance of Entity Manager
-     */
     protected $entityManager; 
 
-    public function __construct(EntityManager $em) 
+    public function __construct(Entitymanager $em) 
     {
         $this->entityManager = $em; 
     }
 
-    public function storage($filename) 
+    public function storage(UploadedFile $file) 
     { 
-        $loadXml = json_decode(json_encode(simplexml_load_file($filename)));
+        if(!$file->isValid()) {
+            throw new \Exception('Invalid File'); 
+        }
+
+        $loadXml = json_decode(json_encode(simplexml_load_file($file->getRealPath())));
 
         if(empty($loadXml)){
             throw new \Exception('Empty File'); 
@@ -40,10 +40,7 @@ final class OrderStorage implements XmlHandlerInterface
                 
                 // insert the new person case not exist. 
                 if(!$person) {
-                    $person = new People();
-                    $person->setId((int)$shiporder->orderperson); 
-                    $person->setPersonName('');
-                    $this->entityManager->persist($person); 
+                    // exception
                 }
                 
                 $order = new Order();
@@ -61,7 +58,8 @@ final class OrderStorage implements XmlHandlerInterface
                     $this->entityManager->persist($shipto); 
                 }
                 
-                if (!empty($shiporder->items->item)) {
+                if (!empty($shiporder->items)) {
+                    
                     foreach ($shiporder->items as $item) {
                         
                         $item = is_array($item) ? $item : [$item];

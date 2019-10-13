@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: services.yml }
 
 framework:
     #esi:             ~
@@ -23,6 +24,9 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    # ...
+    serializer:
+        enabled: true
 
 # Twig Configuration
 twig:

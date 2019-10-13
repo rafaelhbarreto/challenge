@@ -1,0 +1,9 @@
+# app/config/services.yml
+services:
+    app.people_storage:
+        class:     AppBundle\Service\PeopleStorage
+        arguments: ['@doctrine.orm.entity_manager']
+    
+    app.orders_storage:
+        class:     AppBundle\Service\OrderStorage
+        arguments: ['@doctrine.orm.entity_manager']

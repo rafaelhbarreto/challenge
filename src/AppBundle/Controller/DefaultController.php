@@ -5,11 +5,16 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use Symfony\Component\HttpFoundation\Request;
 
+use AppBundle\Helper\HelperUploadFile; 
 use AppBundle\Service\PeopleStorage; 
 use AppBundle\Service\OrderStorage; 
-use AppBundle\Helper\Helper; 
+
 
 class DefaultController extends Controller
 {
@@ -19,50 +24,40 @@ class DefaultController extends Controller
      * 
      * Form apresentation
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        // renders app/Resources/views/upload/number.html.twig
-        return $this->render('upload/form.html.twig');
-    }
+        // https://symfony.com/doc/2.8/forms.html
 
-    /**
-     * @Route("/process")
-     * @Template()
-     * @throws \Exception
-     * 
-     * Process the uploaded file and save all data on database
-     */
-    public function proccessUploadAction(Request $request)
-    {
-        if ($request->getMethod() == 'POST') {
+        $form = $this->createFormBuilder()
+        ->add('peopleFile', FileType::class)
+        ->add('ordersFile', FileType::class)
+        ->add('upload', SubmitType::class, array(
+            'attr' => array('class' => 'btn btn-primary'),
+        ))->getForm();
+        $form->handleRequest($request); 
 
-            $em = $this->getDoctrine()->getManager();
-            $peopleFile = $request->files->get('peopleFile');
-            $ordersFile = $request->files->get('ordersFile');
-            $rootDir = $this->container->getParameter('kernel.root_dir'); 
+        if($form->isSubmitted()) {
 
             try 
             {
-                // upload the people file
-                $peopleFilename = Helper::uploadFile($peopleFile, $rootDir); 
-                
-                // storage the content on database 
-                $peopleStorage = new PeopleStorage($em); 
-                $peopleStorage->storage($peopleFilename);
-                
-                // upload the orders file
-                $ordersFilename = Helper::uploadFile($ordersFile, $rootDir); 
+                $formData = $form->getData(); 
 
-                // storage the content on database 
-                $ordersStorage = new OrderStorage($em); 
-                $ordersStorage->storage($ordersFilename);
-                
-                // return to form with success message
-                return $this->render('upload/form.html.twig', array('msg' => 'Success!'));
+                $peopleFile = $formData['peopleFile'];
+                $ordersFile = $formData['ordersFile'];
+
+                // calling by dependences injection
+                // se more in https://symfony.com/doc/2.8/service_container.html
+
+                $this->container->get('app.people_storage')->storage($peopleFile);
+                $this->container->get('app.orders_storage')->storage($ordersFile);
             }
-            catch(\Exception $e) {
-                die($e->getMessage()); 
+            catch(\Exeption $e) {
+                echo $e->getMessage();
             }
         }
+
+        return $this->render('upload/form.html.twig', array(
+            'uploadForm' => $form->createView(),
+        ));
     }
 }

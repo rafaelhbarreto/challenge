@@ -1,0 +1,9 @@
+person_api:
+    type: rest
+    resource: "@AppBundle/Controller/Api/PeopleController.php"
+
+order_api:
+    type: rest
+    resource: "@AppBundle/Controller/Api/OrdersController.php"
+
+    
