@@ -1,50 +1,62 @@
-**Challenge for Invillia. **
+
+
+# Challenge for Invillia.
 
 This is a small project that provides an XML file upload screen, writes the information to the database, and provides a REST API for consuming the information.
 
-------------
+# Requirements
 
-# **How to install  **
+- Composer  https://getcomposer.org/
+- Symfony https://symfony.com/download
+- PHP 5.3+ 
+- MySQL 
 
-##### Download Symfony2 and composer
+# Install
 
-To run, you must have Symfony version 2.x and composer installed on your machine. Below are the download links.
-
-- Download Composer on the official website https://getcomposer.org/
-- Download the Symfony on the official website https://symfony.com/download
-- Verify the server requirements and if the extensions are installed:  Ctype, iconv, JSON, PCRE, Session, SimpleXML, and Tokenizer;
-
-After theses steps,  clone this repository in a directory of your preference. E.g:
+Clone the project 
 
 `git clone https://github.com/rafaelhbarreto/challenge.git`
 
-After, go to the directory
+go to the project directory and install the dependencies with composer
 
-` cd challenge`
+`composer install`
 
-Update the dependecies of project 
+Create database
 
-`composer update`
+`php app/console doctrine:database:create`
 
-##### Database
+Create the tables 
 
-Create a MySQL database named challenge on your localhost machine. Then, set the enconding to utf8_general_ci. 
+`php app/console doctrine:schema:create`
 
-In the root folder of project run the command to generate the database
-
-`php app/console doctrine:schema:update --force`
-
-##### Run the server
-
-In the root folder of project run the following command 
+Run the server
 
 `php app/console server:run`
 
 Now open the browser of your preference and access http://localhost:8000
 
-# **Technologies used  **
+# API 
 
-- Symfony2
+After the upload files, the API will be available. If you use [Insomnia client](https://insomnia.rest/), you can import the [insomnia requests.json](https://github.com/rafaelhbarreto/challenge/blob/master/insomnia%20requests.json "insomnia requests.json") file. The environment is ready to use
+
+### Available routes
+
+##### People
+- /api/people 
+- /api/people/{personId} 
+- /api/people/{personId}/phones
+- /api/people/{personId}/orders 
+
+##### Orders
+- /api/orders
+- /api/order/{orderId} 
+- /api/orders/{orderId}/ship
+- /api/orders/{personId}/items 
+
+
+# Technologies used 
+
+  - Symfony2
 - Composer
 - Doctrine
 - MySQL
