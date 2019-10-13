@@ -4,34 +4,46 @@ namespace AppBundle\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-
-use AppBundle\Entity\Order; 
 
 class OrdersController extends Controller
 {
 
-    /**
-     * Route /api/persons/{id}
-     */
     public function getOrderAction($id) {
 
-        $order = $this->getDoctrine()->getRepository(Order::class)->find($id);
+        $order = $this->get('app.orders_repository')->getOrder($id);
 
         if (!$order) {
             throw $this->createNotFoundException('Order not found.');
         }
 
-/*        if(!$order) {
-            return new JsonResponse([]);
-        }
-        */
+        $result = [
+            'person_id' => $order->getPerson()->getId(),
+            'ship' => [
+                'name'  => $order->getShip()->getName(),
+                'address' => $order->getShip()->getAddress(),
+                'city' => $order->getShip()->getCity(),
+                'country' => $order->getShip()->getCountry()
+            ],
+            'items' => []
+        ]; 
 
-        return new JsonResponse(json_decode($this->get('jms_serializer')->serialize($order, 'json')));
+        if( $order->getItems()->count() > 0 ) {
+            foreach($order->getItems() as $item) {
+                $result['items'][] = [
+                    'id' => $item->getId(),
+                    'title' => $item->getTitle(),
+                    'note' => $item->getNote(),
+                    'quantity' => $item->getQuantity(),
+                    'price' => $item->getPrice(),
+                ];
+            }
+        }
+
+        return new JsonResponse($result);
     }
 
     public function getOrdersAction() {
-        $orders = $this->getDoctrine()->getRepository(Order::class)->findAll();
+        $orders = $this->get('app.orders_repository')->getOrders();
 
         $result = [];
         if(count($orders) > 0 ) {
@@ -46,13 +58,9 @@ class OrdersController extends Controller
         return new JsonResponse($result);
     }
 
-
-
-    /**
-     * Route /api/orders/{id}/ship
-     */
     public function getOrdersShipAction($id) {
-        $order = $this->getDoctrine()->getRepository(Order::class)->find($id);
+
+        $order = $this->get('app.orders_repository')->getOrder($id);
 
         if(!$order) {
             return new JsonResponse([]);
@@ -67,11 +75,9 @@ class OrdersController extends Controller
         return new JsonResponse($ship);
     }
 
-    /**
-     * Route /api/orders/{id}/items
-     */
     public function getOrdersItemsAction($id) {
-        $order = $this->getDoctrine()->getRepository(Order::class)->find($id);
+
+        $order = $this->get('app.orders_repository')->getOrder($id);
 
         if(!$order) {
             return new JsonResponse([]);

@@ -1,0 +1,74 @@
+body {
+    background: #f5f5f5;
+    min-height: 100%;
+    align-items: center;
+    height: 100vh;
+}
+
+body main {
+}
+
+.box-upload {
+    background: #fff;
+    padding: 15px; 
+    border-radius: 0px; 
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    border-bottom: 3px solid #e8077b;  
+    min-height: 200px;
+    position: relative;
+    top: 30%; 
+}
+
+form label {
+    display: block;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: .8rem; 
+}
+
+div#form > div {
+    margin: 15px 0; 
+}
+
+.btn.btn-primary {
+    display: block;
+    font-size: 0.8rem;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.2s ease-in-out;
+    background-image: linear-gradient(to right, #e8077b, #e8074b);
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 25px;
+    border-radius: 4px;
+    border: 0;
+    transition: 0.4s linear;
+    display: block;
+    margin: 0 auto; 
+    margin-top: 30px;
+}
+
+.btn.btn-primary:hover {
+    background-image: linear-gradient(to right, #e8077b, #a00836); 
+}
+
+.flash-danger {
+    font-size: .875rem;
+    background: #fda8a8;
+    border-radius: 3px;
+    margin: 20px 0;
+    padding: 15px;
+    color: #333;
+}
+
+.flash-success {
+    font-size: .875rem;
+    background:#aae099;
+    border-radius: 3px;
+    margin: 20px 0;
+    padding: 15px;
+    color: #333;
+}

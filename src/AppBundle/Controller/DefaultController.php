@@ -11,11 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use AppBundle\Helper\HelperUploadFile; 
-use AppBundle\Service\PeopleStorage; 
-use AppBundle\Service\OrderStorage; 
-
-
 class DefaultController extends Controller
 {
     /**
@@ -30,8 +25,8 @@ class DefaultController extends Controller
 
         $form = $this->createFormBuilder()
         ->add('peopleFile', FileType::class)
-        ->add('ordersFile', FileType::class)
-        ->add('upload', SubmitType::class, array(
+        ->add('shipordersFile', FileType::class)
+        ->add('Realizar upload', SubmitType::class, array(
             'attr' => array('class' => 'btn btn-primary'),
         ))->getForm();
         $form->handleRequest($request); 
@@ -43,16 +38,28 @@ class DefaultController extends Controller
                 $formData = $form->getData(); 
 
                 $peopleFile = $formData['peopleFile'];
-                $ordersFile = $formData['ordersFile'];
+                $ordersFile = $formData['shipordersFile'];
 
                 // calling by dependences injection
                 // se more in https://symfony.com/doc/2.8/service_container.html
 
                 $this->container->get('app.people_storage')->storage($peopleFile);
                 $this->container->get('app.orders_storage')->storage($ordersFile);
+
+                $msg = [
+                    'text' => 'Arquivos processados com sucesso!',
+                    'type' => 'success' 
+                ]; 
             }
-            catch(\Exeption $e) {
-                echo $e->getMessage();
+            catch(\Exception $e) {
+                $msg = [
+                    'text' => $e->getMessage(),
+                    'type' => 'danger' 
+                ]; 
+            }
+            finally {
+
+                $this->get('session')->getFlashBag()->add($msg['type'], $msg['text']);
             }
         }
 

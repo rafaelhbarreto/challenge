@@ -7,3 +7,11 @@ services:
     app.orders_storage:
         class:     AppBundle\Service\OrderStorage
         arguments: ['@doctrine.orm.entity_manager']
+    
+    app.people_repository:
+        class:     AppBundle\Repository\PeopleRepository
+        arguments: ['@doctrine.orm.entity_manager']
+    
+    app.orders_repository:
+        class:     AppBundle\Repository\OrdersRepository
+        arguments: ['@doctrine.orm.entity_manager']

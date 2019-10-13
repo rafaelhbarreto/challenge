@@ -5,50 +5,46 @@ namespace AppBundle\Controller\Api;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-
-use AppBundle\Entity\People; 
-
 class PeopleController extends Controller
 {
+    // single person 
     public function getPersonAction($id) {
 
-        $person = $this->getDoctrine()->getRepository(People::class)->find($id);
+        $person = $this->get('app.people_repository')->getPerson($id); 
 
         if (!$person) {
             throw $this->createNotFoundException('Person not found.');
         }
 
-        return new JsonResponse(json_decode($this->get('jms_serializer')->serialize($person, 'json')));
+        return new JsonResponse([
+            'id' => $person->getId(),
+            'name' => $person->getPersonName()
+        ]);
     }
 
+    // colection of person
     public function getPeopleAction() {
         
-        $persons = [];
+        $people = [];
+
+        $resultPeople = $this->get('app.people_repository')->getPeople(); 
         
-        $resultPersons = $this->getDoctrine()->getRepository(People::class)->findAll();
-        
-        if(count($resultPersons) > 0 ){
-            foreach($resultPersons as $person) {
+        if(count($resultPeople) > 0 ){
+            foreach($resultPeople as $person) {
                 $aux = ['id' => $person->getId(), 'name' => $person->getPersonName()];
-                array_push($persons, $aux);
+                array_push($people, $aux);
             }
         }
         
-        return new JsonResponse($persons);
+        return new JsonResponse($people);
     }
     
     
-    /**
-     * Route /api/persons/{id}/phones
-     * 
-     * @param int $id
-     * @return json
-     */
-    public function getPersonsPhonesAction($id) {
-        $person = $this->getDoctrine()->getRepository(People::class)->find($id);
+    public function getPeoplePhonesAction($id) {
+        $person = $this->get('app.people_repository')->getPerson($id); 
 
-        if(!$person) {
-            return new JsonResponse(['msg' => 'Person not found!']);
+        if (!$person) {
+            throw $this->createNotFoundException('Person not found.');
         }
 
         $phones = []; 
@@ -62,17 +58,12 @@ class PeopleController extends Controller
     }
 
 
-    /**
-     * Route /api/person/{person_id}/orders
-     * 
-     * @param int $id
-     * @return json
-     */
-    public function getPersonsOrdersAction($id) {
-        $person = $this->getDoctrine()->getRepository(People::class)->find($id);
+    public function getPeopleOrdersAction($id) {
 
-        if(!$person) {
-            return new JsonResponse(['msg' => 'Person not found!']);
+        $person = $this->get('app.people_repository')->getPerson($id); 
+
+        if (!$person) {
+            throw $this->createNotFoundException('Person not found.');
         }
 
         $orders = []; 
@@ -81,6 +72,7 @@ class PeopleController extends Controller
 
                 // get the ship information
                 $ship = []; 
+                $ship['id'] = $order->getShip()->getId();
                 $ship['name'] = $order->getShip()->getName();
                 $ship['address'] = $order->getShip()->getAddress();
                 $ship['city'] = $order->getShip()->getCity();
@@ -92,6 +84,7 @@ class PeopleController extends Controller
                 if($order->getItems()->count() > 0 ) {
                     foreach($order->getItems() as $item) {
                         $orders['items'][] = [
+                            'id' => $item->getId(),
                             'title' => $item->getTitle(),
                             'note' => $item->getNote(),
                             'quantity' => $item->getQuantity(),
@@ -99,8 +92,6 @@ class PeopleController extends Controller
                         ];
                     }
                 }
-
-                 array_push($orders, ['id' => $order->getId()]);
             }
         }
 
