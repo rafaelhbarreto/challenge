@@ -3,7 +3,11 @@
 
   
 
+  
+
 # Challenge for Invillia.
+
+  
 
   
 
@@ -15,7 +19,11 @@ This is a small project that provides an XML file upload screen, writes the info
 
   
 
+  
+
 # Requirements
+
+  
 
   
 
@@ -25,7 +33,11 @@ This is a small project that provides an XML file upload screen, writes the info
 
   
 
+  
+
 - Symfony2 https://symfony.com/download (version: 2.8.x)
+
+  
 
   
 
@@ -33,7 +45,11 @@ This is a small project that provides an XML file upload screen, writes the info
 
   
 
+  
+
 - MySQL
+
+  
 
   
 
@@ -45,7 +61,11 @@ This is a small project that provides an XML file upload screen, writes the info
 
   
 
+  
+
 Clone the project
+
+  
 
   
 
@@ -57,7 +77,11 @@ Clone the project
 
   
 
+  
+
 go to the project directory and install the dependencies with composer
+
+  
 
   
 
@@ -66,29 +90,50 @@ go to the project directory and install the dependencies with composer
 `composer install`
 
   
+
   
 
 ###### Parameters to install
 
+  
+
 - database_driver pdo_mysql
+
 - database_host 127.0.0.1
+
 - database_port null
+
 - database_name **challenge**
+
 - database_user root
+
 - database_password null
 
+  
+
 - mailer_transport smtp
+
 - mailer_host 127.0.0.1
+
 - mailer_user null
+
 - mailerpassword null
+
 - locale en
+
 - debug_toolbar true
+
 - debug_redirects false
+
 - use_assetic_controller true
 
   
 
+  
+
 Create database
+
+  
 
   
 
@@ -100,7 +145,11 @@ Create database
 
   
 
+  
+
 Create the tables
+
+  
 
   
 
@@ -112,7 +161,11 @@ Create the tables
 
   
 
+  
+
 Run the server
+
+  
 
   
 
@@ -120,17 +173,25 @@ Run the server
 
 `php app/console server:run`
 
-  
+
+ 
+  **ATTENTION**
+ The emailed shiporders.xml file contained a parser error at line 37 and 61. Following is the download link for the correct files. :)  [click here to download](https://www.sendspace.com/file/wbuj79)
+ 
+**Now open the browser of your preference and access** http://localhost:8000
 
   
 
-Now open the browser of your preference and access http://localhost:8000
-
+  
+  
+  
   
 
   
 
 # API
+
+  
 
   
 
@@ -142,11 +203,16 @@ After the upload files, the API will be available. If you use [Insomnia client](
 
   
 
+  
+
 ##### Documentation
+
+  
 
 You can view the documentation in http://localhost:8000/docs
 
   
+
   
 
   
@@ -157,7 +223,11 @@ You can view the documentation in http://localhost:8000/docs
 
   
 
+  
+
 ##### People
+
+  
 
   
 
@@ -165,11 +235,17 @@ You can view the documentation in http://localhost:8000/docs
 
   
 
+  
+
 - /api/people/{personId}
 
   
 
+  
+
 - /api/people/{personId}/phones
+
+  
 
   
 
@@ -179,7 +255,11 @@ You can view the documentation in http://localhost:8000/docs
 
   
 
+  
+
 ##### Orders
+
+  
 
   
 
@@ -187,11 +267,17 @@ You can view the documentation in http://localhost:8000/docs
 
   
 
+  
+
 - /api/order/{orderId}
 
   
 
+  
+
 - /api/orders/{orderId}/ship
+
+  
 
   
 
@@ -201,7 +287,11 @@ You can view the documentation in http://localhost:8000/docs
 
   
 
-# Technologies 
+  
+
+# Technologies
+
+  
 
   
 
@@ -211,7 +301,11 @@ You can view the documentation in http://localhost:8000/docs
 
   
 
+  
+
 - Composer
+
+  
 
   
 
@@ -219,11 +313,17 @@ You can view the documentation in http://localhost:8000/docs
 
   
 
+  
+
 - MySQL
 
   
 
+  
+
 - Git
+
+  
 
   
 
