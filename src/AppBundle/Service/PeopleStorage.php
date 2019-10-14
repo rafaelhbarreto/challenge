@@ -22,6 +22,7 @@ class PeopleStorage
       throw new \Exception('Invalid File'); 
     }
 
+    // read the file and transform in a array structure
     $loadXml = json_decode(json_encode(simplexml_load_file($file->getRealPath())));
     
     if(count($loadXml->person) > 0 ) {

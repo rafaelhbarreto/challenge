@@ -23,6 +23,7 @@ class OrderStorage
             throw new \Exception('Invalid File'); 
         }
 
+        // read the file and transform in a array structure
         $loadXml = json_decode(json_encode(simplexml_load_file($file->getRealPath())));
 
         if(empty($loadXml)){
@@ -37,12 +38,7 @@ class OrderStorage
                 $person = $this->entityManager
                 ->getRepository('AppBundle:People')
                 ->find((int)$shiporder->orderperson);
-                
-                // insert the new person case not exist. 
-                if(!$person) {
-                    // exception
-                }
-                
+                              
                 $order = new Order();
                 $order->setId((int)$shiporder->orderid);
                 $order->setPerson($person);
