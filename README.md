@@ -25,7 +25,7 @@ This is a small project that provides an XML file upload screen, writes the info
 
   
 
-- Symfony https://symfony.com/download
+- Symfony2 https://symfony.com/download (version: 2.8.x)
 
   
 
@@ -201,13 +201,13 @@ You can view the documentation in http://localhost:8000/docs
 
   
 
-# Technologies used
+# Technologies 
 
   
 
   
 
-- Symfony2
+- Symfony2 (2.8.x)
 
   
 
