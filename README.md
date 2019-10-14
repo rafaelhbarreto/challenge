@@ -220,7 +220,7 @@ You can view the documentation in http://localhost:8000/docs
 ### Available routes
 
   
-
+Ex.: http://localhost:8000/api/people
   
 
   
